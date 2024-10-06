@@ -6,6 +6,7 @@ import Purpose from "./pages/Purpose";
 import Sync from "./pages/Sync";
 import MoodDetectionScreen from "./pages/MoodDetection";
 import MainScreen from "./pages/MainScreen";
+import Playing from "./pages/Playing";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/sync" element={<Sync />} />
         <Route path="/mood-detection" element={<MoodDetectionScreen />} />
         <Route path="/main" element={<MainScreen />} />
+        <Route path="/playing" element={<Playing />} />
       </Routes>
     </Router>
   );
