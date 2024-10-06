@@ -1,36 +1,28 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSignIn = (e: any) => {
     e.preventDefault();
     // Handle sign in logic here
-    console.log('Sign in attempted with:', username, password);
+    console.log("Sign in attempted with:", username, password);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-zinc-900 to-black text-white flex flex-col items-center justify-center p-4 w-full">
       <div className="w-full max-w-md space-y-8">
         <div className="flex flex-col items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-20 w-20 text-green-500 mb-2"
-          >
-            <path d="M9 18V5l12-2v13" />
-            <circle cx="6" cy="18" r="3" />
-            <circle cx="18" cy="16" r="3" />
-          </svg>
-          <h2 className="mt-6 text-3xl font-extrabold">Music App</h2>
+          <img
+            src={logo} // Replace with your actual logo path
+            alt="Floowy Logo"
+            className="h-60 w-60 text-green-500 mb-2"
+          />
+          <h2 className="mt-6 text-3xl font-extrabold">Floowy 🎵</h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSignIn}>
           <div className="rounded-md shadow-sm -space-y-px">
@@ -77,10 +69,13 @@ const SignIn = () => {
         </form>
         <div className="text-center">
           <p className="text-sm">
-            Don't have an account?{' '}
-            <button className="text-green-500 hover:text-green-400 font-medium" onClick={() => {
-              navigate("/signup");
-            }}>
+            Don't have an account?{" "}
+            <button
+              className="text-green-500 hover:text-green-400 font-medium"
+              onClick={() => {
+                navigate("/signup");
+              }}
+            >
               Sign up
             </button>
           </p>
