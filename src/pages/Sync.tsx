@@ -62,7 +62,7 @@ const SyncPage: React.FC = () => {
     console.log("Syncing options:", selectedOptions);
     console.log("Spotify playlist:", spotifyPlaylist);
     localStorage.setItem("spotifyPlaylist", spotifyPlaylist);
-    navigate("/dashboard");
+    navigate("/mood-detection");
   };
 
   const handlePlaylistSubmit = (e: React.FormEvent) => {
