@@ -1,30 +1,85 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SyncPage: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const [isSpotifyModalOpen, setIsSpotifyModalOpen] = useState(false);
+  const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
+  const [spotifyPlaylist, setSpotifyPlaylist] = useState("");
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [connectedEmail, setConnectedEmail] = useState("");
   const navigate = useNavigate();
 
   const syncOptions = [
-    { id: 'calendar', label: 'Sync calendar', logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfZRzn2OpNq-OaU1QGcrCL9HDxi6k-4HXAyg&s' },
-    { id: 'playlists', label: 'Sync playlists', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/1982px-Spotify_icon.svg.png' },
-    { id: 'health', label: 'Sync health data', logo: 'https://i.pinimg.com/736x/f4/c9/a8/f4c9a88e93317977c3d0921b12309578.jpg' },
-    { id: 'mental-health', label: 'Sync mental health record', logo: 'https://www.planstreetinc.com/wp-content/uploads/2021/07/what-is-mental-health.png' },
+    {
+      id: "calendar",
+      label: "Sync calendar",
+      logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfZRzn2OpNq-OaU1QGcrCL9HDxi6k-4HXAyg&s",
+    },
+    {
+      id: "playlists",
+      label: "Sync playlists",
+      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/1982px-Spotify_icon.svg.png",
+    },
+    {
+      id: "health",
+      label: "Sync health data",
+      logo: "https://i.pinimg.com/736x/f4/c9/a8/f4c9a88e93317977c3d0921b12309578.jpg",
+    },
+    {
+      id: "mental-health",
+      label: "Sync mental health record",
+      logo: "https://www.planstreetinc.com/wp-content/uploads/2021/07/what-is-mental-health.png",
+    },
   ];
-
   const handleOptionToggle = (optionId: string) => {
-    setSelectedOptions(prev => 
-      prev.includes(optionId) 
-        ? prev.filter(id => id !== optionId)
-        : [...prev, optionId]
-    );
+    if (optionId === "playlists") {
+      setIsSpotifyModalOpen(true);
+    } else if (optionId === "calendar") {
+      setIsCalendarModalOpen(true);
+    } else {
+      setSelectedOptions((prev) =>
+        prev.includes(optionId)
+          ? prev.filter((id) => id !== optionId)
+          : [...prev, optionId]
+      );
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Syncing options:', selectedOptions);
-    navigate('/dashboard');
+    console.log("Syncing options:", selectedOptions);
+    console.log("Spotify playlist:", spotifyPlaylist);
+    localStorage.setItem("spotifyPlaylist", spotifyPlaylist);
+    navigate("/dashboard");
   };
+
+  const handlePlaylistSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSpotifyModalOpen(false);
+    if (spotifyPlaylist) {
+      setSelectedOptions((prev) => [...prev, "playlists"]);
+    }
+  };
+
+  const handleConnectToGoogle = () => {
+    setIsConnecting(true);
+    setTimeout(() => {
+      setIsConnecting(false);
+      setConnectedEmail("hochivuong2002@gmail.com");
+      setSelectedOptions((prev) => [...prev, "calendar"]);
+    }, 3000);
+  };
+
+  useEffect(() => {
+    if (connectedEmail) {
+      const timer = setTimeout(() => {
+        setIsCalendarModalOpen(false);
+        setConnectedEmail("");
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [connectedEmail]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-zinc-900 to-black text-white flex flex-col items-center justify-center p-4">
@@ -44,7 +99,9 @@ const SyncPage: React.FC = () => {
             <circle cx="6" cy="18" r="3" />
             <circle cx="18" cy="16" r="3" />
           </svg>
-          <h1 className="mt-6 text-3xl font-bold text-center">Sync your data for better recommendations</h1>
+          <h1 className="mt-6 text-3xl font-bold text-center">
+            Sync your data for better recommendations
+          </h1>
         </div>
         <form onSubmit={handleSubmit} className="mt-8 space-y-4">
           {syncOptions.map((option, index) => (
@@ -53,16 +110,18 @@ const SyncPage: React.FC = () => {
                 type="button"
                 onClick={() => handleOptionToggle(option.id)}
                 className={`relative w-full flex items-center px-3 py-2 text-sm font-medium ${
-                  index === 0 ? 'rounded-t-md' : ''
-                } ${
-                  index === syncOptions.length - 1 ? 'rounded-b-md' : ''
-                } ${
+                  index === 0 ? "rounded-t-md" : ""
+                } ${index === syncOptions.length - 1 ? "rounded-b-md" : ""} ${
                   selectedOptions.includes(option.id)
-                    ? 'bg-green-600 text-white'
-                    : 'text-gray-300 hover:bg-zinc-700'
+                    ? "bg-green-600 text-white"
+                    : "text-gray-300 hover:bg-zinc-700"
                 } focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-zinc-900`}
               >
-                <img src={option.logo} alt={`${option.label} logo`} className="w-9.5 h-10 mr-3" />
+                <img
+                  src={option.logo}
+                  alt={`${option.label} logo`}
+                  className="w-6 h-6 mr-3"
+                />
                 {option.label}
               </button>
               {index !== syncOptions.length - 1 && (
@@ -80,6 +139,75 @@ const SyncPage: React.FC = () => {
           </div>
         </form>
       </div>
+
+      {isSpotifyModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-zinc-800 rounded-lg p-6 w-full max-w-md">
+            <h2 className="text-xl font-bold mb-4">
+              Enter Spotify Playlist URL
+            </h2>
+            <form onSubmit={handlePlaylistSubmit}>
+              <input
+                type="text"
+                value={spotifyPlaylist}
+                onChange={(e) => setSpotifyPlaylist(e.target.value)}
+                placeholder="https://open.spotify.com/playlist/..."
+                className="w-full px-3 py-2 bg-zinc-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+              <div className="mt-4 flex justify-end space-x-2">
+                <button
+                  type="button"
+                  onClick={() => setIsSpotifyModalOpen(false)}
+                  className="px-4 py-2 bg-zinc-600 text-white rounded-md hover:bg-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-500"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+                >
+                  Add Playlist
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {isCalendarModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-zinc-800 rounded-lg p-6 w-full max-w-md">
+            <h2 className="text-xl font-bold mb-4">
+              Connect to Google Calendar
+            </h2>
+            {isConnecting ? (
+              <div className="flex flex-col items-center">
+                <div className="spinner w-12 h-12 border-t-4 border-green-500 border-solid rounded-full animate-spin mb-4"></div>
+                <p>Connecting to Google Calendar...</p>
+              </div>
+            ) : connectedEmail ? (
+              <div className="text-center">
+                <p className="mb-2">Successfully connected to:</p>
+                <p className="font-bold">{connectedEmail}</p>
+              </div>
+            ) : (
+              <>
+                <p className="mb-4">
+                  Click the button below to connect your Google Calendar.
+                </p>
+                <div className="flex justify-center">
+                  <button
+                    onClick={handleConnectToGoogle}
+                    className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+                  >
+                    Connect to Google
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
