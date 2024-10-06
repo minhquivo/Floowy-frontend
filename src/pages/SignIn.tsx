@@ -23,6 +23,9 @@ const SignIn = () => {
             className="h-60 w-60 text-green-500 mb-2"
           />
           <h2 className="mt-6 text-3xl font-extrabold">Floowy 🎵</h2>
+          <h3 className="mt-6 text-l font-bold">
+            On-the-go music therapy and mood booster
+          </h3>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSignIn}>
           <div className="rounded-md shadow-sm -space-y-px">
@@ -35,7 +38,7 @@ const SignIn = () => {
                 name="username"
                 type="text"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -50,7 +53,7 @@ const SignIn = () => {
                 name="password"
                 type="password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
