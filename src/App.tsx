@@ -5,6 +5,7 @@ import SignUp from "./pages/SignUp";
 import Purpose from "./pages/Purpose";
 import Sync from "./pages/Sync";
 import MoodDetectionScreen from "./pages/MoodDetection";
+import MainScreen from "./pages/MainScreen";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/purpose" element={<Purpose />} />
         <Route path="/sync" element={<Sync />} />
         <Route path="/mood-detection" element={<MoodDetectionScreen />} />
+        <Route path="/main" element={<MainScreen />} />
       </Routes>
     </Router>
   );
