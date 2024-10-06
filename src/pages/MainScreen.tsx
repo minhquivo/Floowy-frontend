@@ -151,7 +151,7 @@ const MainScreen: React.FC = () => {
 
       <footer className="p-4 bg-zinc-800">
         <button
-          onClick={() => navigate("/ai-songs")}
+          onClick={() => navigate("/playing-ai")}
           className="w-full mb-2 py-2 px-4 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
         >
           Listen to our AI-generated songs
