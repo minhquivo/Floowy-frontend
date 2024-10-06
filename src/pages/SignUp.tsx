@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SignUp: React.FC = () => {
-  const [name, setName] = useState('');
+  const navigate = useNavigate();  
+  const [name, setName] = useState(''); 
   const [age, setAge] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -126,9 +127,11 @@ const SignUp: React.FC = () => {
         <div className="text-center">
           <p className="text-sm">
             Already have an account?{' '}
-            <Link to="/signin" className="font-medium text-green-500 hover:text-green-400">
-              Sign in
-            </Link>
+            <button className="text-green-500 hover:text-green-400 font-medium" onClick={() => {
+              navigate("/");
+            }}>
+              Sign In
+            </button>
           </p>
         </div>
       </div>

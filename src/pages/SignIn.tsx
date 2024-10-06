@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -76,7 +78,9 @@ const SignIn = () => {
         <div className="text-center">
           <p className="text-sm">
             Don't have an account?{' '}
-            <button className="text-green-500 hover:text-green-400 font-medium">
+            <button className="text-green-500 hover:text-green-400 font-medium" onClick={() => {
+              navigate("/signup");
+            }}>
               Sign up
             </button>
           </p>
