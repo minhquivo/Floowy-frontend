@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Camera, X, Loader, RefreshCw } from "lucide-react";
 import * as faceapi from "face-api.js";
+import { useNavigate } from "react-router-dom";
 
 const MoodDetectionScreen: React.FC = () => {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [detectedEmotion, setDetectedEmotion] = useState<string | null>(null);
@@ -120,7 +122,7 @@ const MoodDetectionScreen: React.FC = () => {
 
   const handleContinue = () => {
     // Implement navigation to the next screen here
-    console.log("Continuing to the next screen...");
+    navigate("/main");
   };
 
   return (
