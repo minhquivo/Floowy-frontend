@@ -179,9 +179,9 @@ const SyncPage: React.FC = () => {
             strokeLinejoin="round"
             className="h-20 w-20 text-green-500 mb-2"
           >
-            <path d="M9 18V5l12-2v13" />
-            <circle cx="6" cy="18" r="3" />
-            <circle cx="18" cy="16" r="3" />
+            <path d="M23 4v6h-6" />
+            <path d="M1 20v-6h6" />
+            <path d="M3.51 9a9 9 0 0 1 14.36-3.36L23 10M1 14l5.64 5.64A9 9 0 0 0 20.49 15" />
           </svg>
           <h1 className="mt-6 text-3xl font-bold text-center">
             Sync your data for better recommendations

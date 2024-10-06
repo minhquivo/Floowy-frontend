@@ -11,6 +11,7 @@ const SignIn = () => {
     e.preventDefault();
     // Handle sign in logic here
     console.log("Sign in attempted with:", username, password);
+    navigate("/purpose");
   };
 
   return (
