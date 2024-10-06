@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const SignUp: React.FC = () => {
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
+  const navigate1 = useNavigate();  
   const [name, setName] = useState(''); 
   const [age, setAge] = useState('');
   const [username, setUsername] = useState('');
@@ -118,10 +119,12 @@ const SignUp: React.FC = () => {
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-            >
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" onClick={() => {
+                navigate1("/Purpose");
+              }}>
               Sign up
             </button>
+
           </div>
         </form>
         <div className="text-center">
