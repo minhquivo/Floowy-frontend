@@ -1,13 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const SyncPage: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [isSpotifyModalOpen, setIsSpotifyModalOpen] = useState(false);
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
+  const [isHealthModalOpen, setIsHealthModalOpen] = useState(false);
+  const [isMentalHealthModalOpen, setIsMentalHealthModalOpen] = useState(false);
   const [spotifyPlaylist, setSpotifyPlaylist] = useState("");
   const [isConnecting, setIsConnecting] = useState(false);
   const [connectedEmail, setConnectedEmail] = useState("");
+  const [connectingService, setConnectingService] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [isProcessed, setIsProcessed] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
   const syncOptions = [
@@ -37,6 +44,10 @@ const SyncPage: React.FC = () => {
       setIsSpotifyModalOpen(true);
     } else if (optionId === "calendar") {
       setIsCalendarModalOpen(true);
+    } else if (optionId === "health") {
+      setIsHealthModalOpen(true);
+    } else if (optionId === "mental-health") {
+      setIsMentalHealthModalOpen(true);
     } else {
       setSelectedOptions((prev) =>
         prev.includes(optionId)
@@ -62,24 +73,97 @@ const SyncPage: React.FC = () => {
     }
   };
 
-  const handleConnectToGoogle = () => {
+  const handleConnect = (service: string) => {
     setIsConnecting(true);
+    setConnectingService(service);
     setTimeout(() => {
       setIsConnecting(false);
       setConnectedEmail("hochivuong2002@gmail.com");
-      setSelectedOptions((prev) => [...prev, "calendar"]);
+      setSelectedOptions((prev) => [...prev, service]);
     }, 3000);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedFile(e.target.files[0]);
+    }
+  };
+
+  const handleFileUpload = () => {
+    if (selectedFile) {
+      setIsProcessing(true);
+      setTimeout(() => {
+        setIsProcessing(false);
+        setIsProcessed(true);
+        setSelectedOptions((prev) => [...prev, "mental-health"]);
+        setTimeout(() => {
+          setIsMentalHealthModalOpen(false);
+          setIsProcessed(false);
+          setSelectedFile(null);
+        }, 2000);
+      }, 3000);
+    }
   };
 
   useEffect(() => {
     if (connectedEmail) {
       const timer = setTimeout(() => {
         setIsCalendarModalOpen(false);
+        setIsHealthModalOpen(false);
         setConnectedEmail("");
+        setConnectingService("");
       }, 2000);
       return () => clearTimeout(timer);
     }
   }, [connectedEmail]);
+
+  const renderConnectionModal = (
+    service: string,
+    isOpen: boolean,
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    if (!isOpen) return null;
+
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+        <div className="bg-zinc-800 rounded-lg p-6 w-full max-w-md">
+          <h2 className="text-xl font-bold mb-4">
+            Connect to{" "}
+            {service === "calendar" ? "Google Calendar" : "Apple Health"}
+          </h2>
+          {isConnecting && connectingService === service ? (
+            <div className="flex flex-col items-center">
+              <div className="spinner w-12 h-12 border-t-4 border-green-500 border-solid rounded-full animate-spin mb-4"></div>
+              <p>
+                Connecting to{" "}
+                {service === "calendar" ? "Google Calendar" : "Apple Health"}...
+              </p>
+            </div>
+          ) : connectedEmail && connectingService === service ? (
+            <div className="text-center">
+              <p className="mb-2">Successfully connected to:</p>
+              <p className="font-bold">{connectedEmail}</p>
+            </div>
+          ) : (
+            <>
+              <p className="mb-4">
+                Click the button below to connect your{" "}
+                {service === "calendar" ? "Google Calendar" : "Apple Health"}.
+              </p>
+              <div className="flex justify-center">
+                <button
+                  onClick={() => handleConnect(service)}
+                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+                >
+                  Connect to {service === "calendar" ? "Google" : "Apple"}
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-zinc-900 to-black text-white flex flex-col items-center justify-center p-4">
@@ -174,33 +258,58 @@ const SyncPage: React.FC = () => {
         </div>
       )}
 
-      {isCalendarModalOpen && (
+      {renderConnectionModal(
+        "calendar",
+        isCalendarModalOpen,
+        setIsCalendarModalOpen
+      )}
+      {renderConnectionModal("health", isHealthModalOpen, setIsHealthModalOpen)}
+
+      {isMentalHealthModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
           <div className="bg-zinc-800 rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-bold mb-4">
-              Connect to Google Calendar
+              Upload Mental Health Record
             </h2>
-            {isConnecting ? (
+            {isProcessing ? (
               <div className="flex flex-col items-center">
                 <div className="spinner w-12 h-12 border-t-4 border-green-500 border-solid rounded-full animate-spin mb-4"></div>
-                <p>Connecting to Google Calendar...</p>
+                <p>Processing your mental health record...</p>
               </div>
-            ) : connectedEmail ? (
+            ) : isProcessed ? (
               <div className="text-center">
-                <p className="mb-2">Successfully connected to:</p>
-                <p className="font-bold">{connectedEmail}</p>
+                <p className="mb-2">
+                  Mental health record processed successfully!
+                </p>
               </div>
             ) : (
               <>
                 <p className="mb-4">
-                  Click the button below to connect your Google Calendar.
+                  Please upload your mental health record (PDF format).
                 </p>
-                <div className="flex justify-center">
+                <input
+                  type="file"
+                  accept=".pdf"
+                  onChange={handleFileChange}
+                  ref={fileInputRef}
+                  className="hidden"
+                />
+                <div className="flex flex-col items-center space-y-4">
                   <button
-                    onClick={handleConnectToGoogle}
-                    className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="px-4 py-2 bg-zinc-600 text-white rounded-md hover:bg-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-500"
                   >
-                    Connect to Google
+                    Select File
+                  </button>
+                  {selectedFile && (
+                    <p className="text-sm">{selectedFile.name}</p>
+                  )}
+                  <button
+                    onClick={handleFileUpload}
+                    disabled={!selectedFile}
+                    className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                  >
+                    Upload and Process
                   </button>
                 </div>
               </>
