@@ -1,65 +1,105 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Smile, Activity, User } from "lucide-react";
 import logo from "../assets/logo.png";
+
+interface Song {
+  title: string;
+  artist: string;
+  cover: string;
+  moodScore: number;
+  activityScore: number;
+  personalScore: number;
+}
 
 const MainScreen: React.FC = () => {
   const navigate = useNavigate();
 
-  const songs = [
+  const songs: Song[] = [
     {
       title: "2002",
       artist: "Anne-Marie",
       cover:
         "https://upload.wikimedia.org/wikipedia/en/e/e6/2002_single_by_Anne-Marie.jpg",
+      moodScore: Math.floor(Math.random() * 11),
+      activityScore: Math.floor(Math.random() * 11),
+      personalScore: Math.floor(Math.random() * 11),
     },
     {
       title: "Happy",
       artist: "Pharrell Williams",
       cover:
         "https://upload.wikimedia.org/wikipedia/en/2/23/Pharrell_Williams_-_Happy.jpg",
+      moodScore: Math.floor(Math.random() * 11),
+      activityScore: Math.floor(Math.random() * 11),
+      personalScore: Math.floor(Math.random() * 11),
     },
     {
       title: "Shape of You",
       artist: "Ed Sheeran",
       cover:
         "https://upload.wikimedia.org/wikipedia/en/b/b4/Shape_Of_You_%28Official_Single_Cover%29_by_Ed_Sheeran.png",
+      moodScore: Math.floor(Math.random() * 11),
+      activityScore: Math.floor(Math.random() * 11),
+      personalScore: Math.floor(Math.random() * 11),
     },
     {
       title: "24K Magic",
       artist: "Bruno Mars",
       cover: "https://i.scdn.co/image/ab67616d0000b273232711f7d66a1e19e89e28c5",
+      moodScore: Math.floor(Math.random() * 11),
+      activityScore: Math.floor(Math.random() * 11),
+      personalScore: Math.floor(Math.random() * 11),
     },
     {
       title: "Cake By The Ocean",
       artist: "DNCE",
       cover: "https://m.media-amazon.com/images/I/71SzcHuNjaL.jpg",
+      moodScore: Math.floor(Math.random() * 11),
+      activityScore: Math.floor(Math.random() * 11),
+      personalScore: Math.floor(Math.random() * 11),
     },
     {
       title: "What Do You Mean",
       artist: "Justin Bieber",
       cover:
         "https://upload.wikimedia.org/wikipedia/en/9/9e/JustinBieberWhatDoYouMeanCover.png",
+      moodScore: Math.floor(Math.random() * 11),
+      activityScore: Math.floor(Math.random() * 11),
+      personalScore: Math.floor(Math.random() * 11),
     },
     {
       title: "Perfect",
       artist: "Ed Sheeran",
       cover: "https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96",
+      moodScore: Math.floor(Math.random() * 11),
+      activityScore: Math.floor(Math.random() * 11),
+      personalScore: Math.floor(Math.random() * 11),
     },
     {
       title: "Sucker",
       artist: "Jonas Brothers",
       cover:
         "https://upload.wikimedia.org/wikipedia/en/8/87/Jonas_Brothers_-_Sucker.png",
+      moodScore: Math.floor(Math.random() * 11),
+      activityScore: Math.floor(Math.random() * 11),
+      personalScore: Math.floor(Math.random() * 11),
     },
     {
       title: "Watermelon Sugar",
       artist: "Harry Styles",
       cover: "https://i.scdn.co/image/ab67616d0000b27377fdcfda6535601aff081b6a",
+      moodScore: Math.floor(Math.random() * 11),
+      activityScore: Math.floor(Math.random() * 11),
+      personalScore: Math.floor(Math.random() * 11),
     },
     {
       title: "Butter",
       artist: "BTS",
       cover: "https://upload.wikimedia.org/wikipedia/en/d/db/BTS_-_Butter.png",
+      moodScore: Math.floor(Math.random() * 11),
+      activityScore: Math.floor(Math.random() * 11),
+      personalScore: Math.floor(Math.random() * 11),
     },
   ];
 
@@ -89,6 +129,20 @@ const MainScreen: React.FC = () => {
                 />
                 <p className="mt-2 font-medium text-sm">{song.title}</p>
                 <p className="text-xs text-gray-400">{song.artist}</p>
+                <div className="flex justify-between items-center mt-2">
+                  <div className="flex items-center">
+                    <Smile className="w-4 h-4 mr-1" />
+                    <span className="text-xs">{song.moodScore}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Activity className="w-4 h-4 mr-1" />
+                    <span className="text-xs">{song.activityScore}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <User className="w-4 h-4 mr-1" />
+                    <span className="text-xs">{song.personalScore}</span>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
