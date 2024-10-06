@@ -103,7 +103,7 @@ const MainScreen: React.FC = () => {
           Listen to our AI-generated songs
         </button>
         <button
-          onClick={() => navigate("/mix")}
+          onClick={() => navigate("/Playing")}
           className="w-full py-2 px-4 bg-zinc-700 text-white rounded-md hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
         >
           Mix
