@@ -1,10 +1,25 @@
-import React, { useState } from 'react';
-import { Shuffle, SkipBack, Play, Pause, SkipForward, Repeat } from 'lucide-react';
+import React, { useState } from "react";
+import {
+  Shuffle,
+  SkipBack,
+  Play,
+  Pause,
+  SkipForward,
+  Repeat,
+  Smile,
+  Activity,
+  User,
+} from "lucide-react";
 
 const PlayingPage: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(true);
 
   const togglePlayPause = () => setIsPlaying(!isPlaying);
+
+  // Simulated scores for the song
+  const moodScore = 8;
+  const activityScore = 7;
+  const personalScore = 9;
 
   const lyrics = `I'm a sucker for you
 You say the word and I'll go anywhere blindly
@@ -59,12 +74,26 @@ I'm a sucker for you`;
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-start p-4 overflow-y-auto">
-        <div className="w-64 h-64 mb-6">
+        <div className="w-64 h-64 mb-6 relative">
           <img
             src="https://upload.wikimedia.org/wikipedia/en/8/87/Jonas_Brothers_-_Sucker.png"
             alt="Sucker by Jonas Brothers album cover"
             className="w-full h-full object-cover rounded-lg shadow-lg"
           />
+          <div className="absolute bottom-2 left-2 right-2 flex justify-between items-center bg-black bg-opacity-50 rounded-md p-2">
+            <div className="flex items-center">
+              <Smile className="w-4 h-4 mr-1 text-yellow-400" />
+              <span className="text-xs">{moodScore}/10</span>
+            </div>
+            <div className="flex items-center">
+              <Activity className="w-4 h-4 mr-1 text-green-400" />
+              <span className="text-xs">{activityScore}/10</span>
+            </div>
+            <div className="flex items-center">
+              <User className="w-4 h-4 mr-1 text-blue-400" />
+              <span className="text-xs">{personalScore}/10</span>
+            </div>
+          </div>
         </div>
 
         <div className="flex justify-center items-center space-x-6 mb-6 w-full max-w-md">
